@@ -65,6 +65,7 @@ include 'head_common.php';
                 <button type="submit" id="btn-reg" class="btn btn-default">Registrar usuario</button>
             </div>-->
         </form>
+        <br>
         <div class="alert alert-danger" col-sm-offset-2 col-sm-8 id="msg"></div>
         <br>
         <hr>

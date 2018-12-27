@@ -1,12 +1,5 @@
 <?php
-
 namespace A4\App\Controllers;
-
-/**
- * Description of tarea
- *
- * @author linux
- */
 
 use A4\Sys\Controller;
 use A4\App\Views\vTarea;
@@ -16,15 +9,27 @@ use A4\App\Views\vTareaEditar;
 use A4\App\Models\mTarea;
 use A4\Sys\Session;
 
+/**
+ * Clase que extiende de Controller
+ * se utiliza para administrar las tareas del usuario
+ *
+ * @author Silvina Guidobono <silvinaguidobono@gmail.com>
+ */
 class Tarea extends Controller{
     function __construct($params) {
         parent::__construct($params);
     }
-    
+    /**
+     * Lista las tareas de usuario logeado
+     * y muestra mensaje con resultado de la acción solicitada
+     */
     function home(){
+        // Recupera id del usuario logueado para buscar sus tareas
         $id_usuario=Session::get('id_usuario');
+        // Recupera nombre y apellido del usuario para mostar en la vista
         $nombre=Session::get('nombre');
         $apellidos=Session::get('apellidos');
+        // Recupera el mensaje a mostrar y su tipo
         $mensaje=Session::get('mensaje');
         $tipo_mensaje=Session::get('tipo_mensaje');
         
@@ -37,6 +42,7 @@ class Tarea extends Controller{
         if(is_null($apellidos)){
             $apellidos="";
         }
+        // Borra el mensaje una vez mostrado
         if(is_null($tipo_mensaje)){
             $tipo_mensaje="";
         }else{
@@ -47,15 +53,14 @@ class Tarea extends Controller{
         }else{
             Session::del('mensaje');
         }
-        
-        $titulo="Tareas del usuario: ".$nombre." ".$apellidos;
-    
         $this->model=new mTarea();
-        
+        // Busca todas las tareas del usuario en la base de datos
         $tareas= $this->model->listarTareas($id_usuario);
-        
+        // Guarda cantidad de tareas del usuario
         $cant_tareas= count($tareas);
-        
+        // Construye titulo para enviar a la vista
+        $titulo="Tareas del usuario: ".$nombre." ".$apellidos;
+        // Guarda los datos en dataTable para mostrar en la vista
         $this->addData([
             'page'=>'Tareas',
             'titulo'=>$titulo,
@@ -64,18 +69,14 @@ class Tarea extends Controller{
             'mensaje'=>$mensaje,
             'tipo_mensaje'=>$tipo_mensaje
         ]);
-        
-        //print_r($this->dataTable);
-        //print_r($this);
-        //exit;
-        
         $this->view=new vTarea($this->dataView, $this->dataTable);
-        //$this->view->__construct($this->dataView);
         $this->view->show();
-        //print_r($this->dataView);
-        //echo "<br>";
     }
     
+    /**
+     * Permite ingresar los datos de una nueva tarea del usuario
+     * 
+     */
     function nueva(){
         
         $titulo="Nueva tarea";
@@ -89,33 +90,75 @@ class Tarea extends Controller{
         $this->view->show();
     }
     
+    /**
+    * Valida los datos ingresados por el formulario de Nueva tarea
+    * Inserta el registro en la tabla de tareas para el usuario logueado
+    * Guarda mensaje con resultado de inserción en variables de sesión
+    * Va a la página de tareas donde muestra el mensaje de éxito o error
+    * 
+    */
     function agregar(){
-        // comprobación de formulario
-        // Devuelve false si falla el filtro
-        // Devuelve NULL si la variable no está definida
+        // Recupero los datos ingresados por el formulario
         $titulo=filter_input(INPUT_POST, 'titulo', FILTER_SANITIZE_STRING);
         $descripcion=filter_input(INPUT_POST, 'descripcion', FILTER_SANITIZE_STRING);
-        //$this->ajax(''=>'');
+        // filter_input devuelve false si falla el filtro
+        // filter_input devuelve NULL si la variable no está definida
         
-        $id_usuario=Session::get('id_usuario');
-        if(is_null($id_usuario)){
-            $id_usuario=0;
-        }
-        
-        $this->model=new mTarea();
-        
-        $result=$this->model->agregarTarea($titulo,$descripcion,$id_usuario);
-        
-        // Si no hubo error de inserción, envío mensaje de éxito
-        if ($result){ 
-            Session::set('mensaje', "Tarea insertada correctamente");
-            Session::set('tipo_mensaje', "success");
+        // Validaciones del lado servidor de los datos ingresados
+        $errores=array(); // inicializo vector de errores
+        // Valido el titulo de la tarea
+        if(!is_null($titulo) && !empty($titulo) && $titulo!=FALSE){
+            //$titulo= htmlspecialchars($_POST['titulo']);
+            $long_titulo=strlen($titulo);
+            if($long_titulo < 5){
+                $errores['titulo']="La longitud del titulo debe ser mayor o igual a 5";
+            }
+            if($long_titulo > 40){
+                $errores['titulo']="La longitud del titulo debe ser menor o igual a 40";
+            }
         }else{
-            Session::set('mensaje', "No se pudo insertar la tarea");
-            Session::set('tipo_mensaje', "danger");
+            $errores['titulo']="Debe ingresar el titulo de la tarea";
         }
-        
-        header("Location: /tarea");
+        // Valido la descripción de la tarea
+        if(!is_null($descripcion) && !empty($descripcion) && $descripcion!=FALSE){
+            //$descripcion= htmlspecialchars($_POST['descripcion']);
+            if(strlen($descripcion) < 5){
+                $errores['descripcion']="La longitud de la descripción debe ser mayor o igual a 5";
+            }
+        }else{
+            $errores['descripcion']="Debe ingresar la descripción de la tarea";
+        }
+        // Si no hay errores de validación
+        if (count($errores)==0){
+            // Recupero el id del usuario logueado
+            $id_usuario=Session::get('id_usuario');
+            if(is_null($id_usuario)){
+                $id_usuario=0;
+            }
+            $this->model=new mTarea();
+            // inserto la tarea en la base de datos
+            $result=$this->model->agregarTarea($titulo,$descripcion,$id_usuario);
+            // Si no hubo error de inserción, envío mensaje de éxito
+            if ($result){ 
+                Session::set('mensaje', "Tarea insertada correctamente");
+                Session::set('tipo_mensaje', "success");
+            }else{
+                Session::set('mensaje', "No se pudo insertar la tarea");
+                Session::set('tipo_mensaje', "danger");
+            }
+            header("Location: ".URL."tarea");
+        }else{
+            // mostrar el formulario con los errores
+            $this->addData([
+                    'page'=>'Nueva tarea',
+                    'titulo'=>'Nueva tarea',
+                    'titulo_tarea'=>$titulo,
+                    'descripcion'=>$descripcion,
+                    'errores'=>$errores
+            ]);
+            $this->view=new vTareaNueva($this->dataView, $this->dataTable);
+            $this->view->show();
+        }
     }
     
     function ver(){

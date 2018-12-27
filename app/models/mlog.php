@@ -5,9 +5,10 @@ namespace A4\App\Models;
 use A4\Sys\Model;
 
 /**
- * Description of mlog
+ * Clase perteneciente al Modelo
+ * Contiene método para validar el usuario logeado contra la base de datos
  *
- * @author linux
+ * @author Silvina Guidobono <silvinaguidobono@gmail.com>
  */
 class mLog extends Model{
     public function __construct() {

@@ -41,15 +41,15 @@ else{
                             <td><?= $tarea['fecha_act']?></td>
                             
                             <td class="actions">
-                                <a href="/tarea/ver/id_tarea/<?= $tarea['id']?>" class="btn btn-sm btn-info">
+                                <a href="<?= URL.'tarea/ver/id_tarea/'.$tarea['id']?>" class="btn btn-sm btn-info">
                                     Ver
                                 </a>
 
-                                <a href="/tarea/editar/id_tarea/<?= $tarea['id']?>" class="btn btn-sm btn-primary">
+                                <a href="<?= URL.'tarea/editar/id_tarea/'.$tarea['id']?>" class="btn btn-sm btn-primary">
                                     Editar
                                 </a>
 
-                                <a href="borrar_tarea.php?id_tarea=<?= $tarea['id']?>" class="btn btn-sm btn-danger btn-delete">
+                                <a href="<?= URL.'tarea/borrar/id_tarea/'.$tarea['id']?>" class="btn btn-sm btn-danger btn-delete">
                                     Borrar
                                 </a>
                             </td>
@@ -62,7 +62,7 @@ else{
     <?php }  ?>
 
     <hr>
-    <p><a href="/tarea/nueva" class="btn btn-primary btn-md">Nueva tarea</a></p>
+    <p><a href="<?= URL.'tarea/nueva'?>" class="btn btn-primary btn-md">Nueva tarea</a></p>
     <?php
         include 'footer_common.php';
         ?>
