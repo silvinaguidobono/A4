@@ -3,25 +3,17 @@
 include 'head_common.php';
 
 ?>
-        <form action="/tarea/modificar" method="POST" id="form-tareas">
+        <form action="<?= URL.'tarea/modificar'?>" method="POST" id="form-tareas">
             <p>
                 <label for="titulo">Título</label>
                 <br>
                 <input type="text" placeholder="Ingrese el titulo" name="titulo"
                        value="<?php
                        echo $this->tarea['titulo'];
-                       /*    
-                       if($_GET){
-                           echo $row['0']['titulo'];
-                       }
-                       if (isset($_POST['titulo'])){
-                           echo $_POST['titulo'];
-                       }
-                       */
                        ?>"/>
                 <?php 
-                if (isset($errores['titulo'])){
-                    echo '<span class="text-danger">'.$errores['titulo'].'</span>';
+                if (isset($this->errores['titulo'])){
+                    echo '<span class="text-danger">'.$this->errores['titulo'].'</span>';
                 } ?>
                 
             </p>
@@ -31,18 +23,10 @@ include 'head_common.php';
                 <textarea name="descripcion" form="form-tareas"
                       placeholder="Ingrese la descripción" rows="4" cols="50"><?php
                        echo $this->tarea['descripcion'];
-                       /*     
-                       if($_GET){
-                           echo $row['0']['descripcion'];
-                       }
-                       if (isset($_POST['descripcion'])){
-                           echo $_POST['descripcion'];
-                       }
-                       */
                        ?></textarea>
                 <?php 
-                if (isset($errores['descripcion'])){
-                    echo '<span class="text-danger">'.$errores['descripcion'].'</span>';
+                if (isset($this->errores['descripcion'])){
+                    echo '<span class="text-danger">'.$this->errores['descripcion'].'</span>';
                 } ?>
             </p>
             <p>
@@ -53,16 +37,6 @@ include 'head_common.php';
                         if ($this->tarea['estado']==0){
                                 echo "checked";
                         }
-                        /*
-                        if($_GET){
-                            if ($row['0']['estado']==0){
-                                echo "checked";
-                            }
-                        }
-                        if (isset($_POST['estado']) && $_POST['estado']=="Pendiente"){
-                            echo "checked";
-                        } 
-                        */
                        ?>
                        value="Pendiente"/> Pendiente
                 <br>
@@ -71,21 +45,11 @@ include 'head_common.php';
                         if ($this->tarea['estado']==1){
                             echo "checked";
                         }
-                        /*
-                        if($_GET){
-                            if ($row['0']['estado']==1){
-                                echo "checked";
-                            }
-                        }
-                        if (isset($_POST['estado']) && $_POST['estado']=="Finalizada"){
-                            echo "checked";
-                        }
-                        */
-                       ?>
+                        ?>
                        value="Finalizada"/> Finalizada
                 <?php 
-                if (isset($errores['estado'])){
-                    echo '<span class="text-danger">'.$errores['estado'].'</span>';
+                if (isset($this->errores['estado'])){
+                    echo '<span class="text-danger">'.$this->errores['estado'].'</span>';
                 } 
                 ?>
             </p>
@@ -97,7 +61,7 @@ include 'head_common.php';
         </form>
         <br>
         <hr>
-        <p><a href="/tarea" class="btn btn-info btn-md">Listado de tareas</a></p>
+        <p><a href="<?= URL.'tarea'?>" class="btn btn-info btn-md">Listado de tareas</a></p>
     <?php
         include 'footer_common.php';
         ?>
