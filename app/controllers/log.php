@@ -55,13 +55,13 @@ class Log extends Controller{
         
         // Valido el correo electrónico
         if(!is_null($email) && !empty($email)){
-            //if (isset($_COOKIE['email']) && $_COOKIE['email']!=$_POST['email']) {
-            //    $errores['email']="Debe iniciar sesión y pedir acceso con otro usuario";
-            //}else{
+            if (isset($_COOKIE['email']) && $_COOKIE['email']!=$email) {
+                $errores['email']="Debe iniciar sesión y pedir acceso con otro usuario";
+            }else{
                 if(!filter_var($email, FILTER_VALIDATE_EMAIL)){
                     $errores['email']="El correo electrónico es inválido";
                 }    
-            //}
+            }
             
         }else{
             $errores['email']="Debe ingresar su correo electrónico";
@@ -78,11 +78,10 @@ class Log extends Controller{
             
             // Si existe un correo con esa contraseña en la base de datos
             if (count($row)>0){  
-                // si marcó la opción de recordar usuario ******* PENDIENTE
-                //if (isset($_POST['recordar']) && $_POST['recordar']=="Si"){
-                //if ($recordar=="Si"){
-                //    guardar_cookies($email, $clave);
-                //}
+                // si marcó la opción de recordar usuario
+                if(!is_null($recordar) && $recordar=="Si"){
+                    $this->guardarCookies($email, $clave);
+                }
                 // guardo los datos del usuario en las variables de sesión
                 Session::set('id_usuario', $row[0]['id']);
                 Session::set('email', $row[0]['email']);
@@ -121,5 +120,21 @@ class Log extends Controller{
             $this->view->show();
         }
         
+    }
+    
+    /**
+     * Guarda correo electrónico y contraseña del usuario en Cookie
+     * 
+     * @param string $email correo electrónico
+     * @param string $clave contraseña
+     */
+    private function guardarCookies($email,$clave){
+        // Cookie Producción con ruta
+        setcookie('email',$email, time()+1800,"/A4");
+        setcookie('clave', $clave, time()+1800,"/A4");
+
+        // Cookie desarrollo
+        //setcookie('email',$email, time()+1800,"/");
+        //setcookie('clave', $clave, time()+1800,"/");
     }
 }

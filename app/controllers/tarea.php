@@ -374,10 +374,36 @@ class Tarea extends Controller{
         header("Location: ".URL."tarea");
     }
     
+    /**
+     * Destruyo la sesión del usuario
+     */
     function cerrarSesion(){
         Session::destroy();  
         header("Location: ".URL."log");
-            
     }
     
+    /**
+     * Destruyo la sesión y elimino las cookies del usuario
+     * voy al formulario de login para acceder con otro usuario
+     */
+    function cerrarUsuario(){
+        $this->eliminarCookies();
+        $this->cerrarSesion();
+    }
+    
+    /**
+     * Elimina las cookies para permitir el ingreso con otro usuario
+     * 
+     */
+    private function eliminarCookies(){
+        // Cookie producción con ruta
+        if (isset($_COOKIE['email'])){
+            setcookie('email',"", time()-1800,"/A4");
+            //setcookie('email',"", time()-1800,"/");
+        }
+        if (isset($_COOKIE['clave'])){
+            setcookie('clave',"", time()-1800,"/A4");
+            //setcookie('clave',"", time()-1800,"/");
+        }
+    }
 }

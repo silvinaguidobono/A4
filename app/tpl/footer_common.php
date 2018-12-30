@@ -1,6 +1,6 @@
             <p>
                 <a href="<?= URL.'tarea/cerrarSesion'?>" class="btn btn-danger btn-md">Cerrar sesión</a> 
-                <a href="cerrar_usuario.php" class="btn btn-danger btn-md">Acceder con otro usuario</a>
+                <a href="<?= URL.'tarea/cerrarUsuario'?>" class="btn btn-danger btn-md">Acceder con otro usuario</a>
             </p>
         </div>
         <!--
