@@ -3,28 +3,27 @@
 namespace A4\Sys;
 
 /**
- * Description of view
+ * Clase de la que heredan las vistas de la aplicación
  *
- * @author linux
+ * @author Silvina Guidobono <silvinaguidobono@gmail.com>
  */
 class View extends \ArrayObject{
     
     protected $output;
     
     function __construct($dataView=null,$dataTable=null){
+        parent::__construct($dataView, \ArrayObject::ARRAY_AS_PROPS);
+        
         //parent::__construct($dataView, flags: \ArrayObject::ARRAY_AS_PROPS);
-        
-        //parent::__construct($dataView, \ArrayObject::ARRAY_AS_PROPS);
-        
+        // puedo acceder a las claves (key) del array como propiedades del objeto
+        // print_r($this->page);
+        /*
         if (empty($dataTable)){
             parent::__construct($dataView, \ArrayObject::ARRAY_AS_PROPS);
         }else{
             parent::__construct($dataTable, \ArrayObject::ARRAY_AS_PROPS);
         }
-            
-        // puedo acceder a las claves (key) del array como propiedades del objeto
-        //1print_r($this->page);
-        
+        */   
     }
     /*
      * renders template

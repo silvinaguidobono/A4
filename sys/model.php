@@ -5,9 +5,9 @@ namespace A4\Sys;
 use A4\Sys\Singleton;
 
 /**
- * Description of model
+ * Clase de la que heredan los modelos de la aplicación
  *
- * @author linux
+ * @author Silvina Guidobono <silvinaguidobono@gmail.com>
  */
 class Model {
     use Singleton;

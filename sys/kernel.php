@@ -2,6 +2,8 @@
 
 namespace A4\Sys;
 use A4\Sys\Request;
+use A4\App\Controllers\Error;
+use Exception;
 
 /**
  * Application Kernel
@@ -21,28 +23,26 @@ class kernel {
     
 
     public static function init(){
-        //echo 'INIT';
-        
-        //process the REQUEST_URI
+        // Procesa la REQUEST_URI
         Request::exploding();
-        // attributes extraction
+        // Extracción de atributos
+        // Extrae el nombre del controlador
         self::$controller= Request::extract();
+        // Extrae la acción del controlador
         self::$action=Request::extract();
-        self::$params=Request::getParams(); // completar
-        /*
-        var_dump(self::$controller);
-        var_dump(self::$action);
-        var_dump(self::$params);
-        die;
-        */
-        //call to Router applying 
-        self::router();
-        //controller and action
-        
+        try {
+            // Extrae los parámetros 
+            self::$params=Request::getParams();
+            // Call to Router applying 
+            self::router();
+            //controller and action    
+        } catch (Exception $ex) {
+            echo 'Excepción capturada: '.$ex->getMessage();
+        }
     }
     
-    //static function getFileCont():?string{
     static function getFileCont(){
+    //static function getFileCont():?string{        en phpStorm
         // recibe la variable controller
         // select default action and controller
         // home es la accion y el controlador por defecto
@@ -60,19 +60,21 @@ class kernel {
     }
 
     /**
-     * looks for controller and action
-     * instantiate controller and calls the action
+     * Busca el controlador y la acción
+     * Instancia el controlador y llama a la acción
      * 
      * @return void
      */
     static function router(){
+        // el controlador por defecto es home
         self::$controller=(self::$controller!="")?self::$controller:'home';
+        // la acción por defecto es home
         self::$action=(self::$action!="")?self::$action:'home';
         
         $class='\\A4\App\Controllers\\'.ucfirst(self::$controller);
         if(class_exists($class)){
-            // instantiate class
-            // Reemplaza el nombre controlador por objeto clase controlador??
+            // Instacio la clase 
+            // Reemplaza el nombre controlador por objeto clase controlador
             self::$controller= new $class(self::$params);
             // new object calls action
             // action call
@@ -80,23 +82,18 @@ class kernel {
                 // si existe ese método dentro de ese controller, llamarlo
                 call_user_func(array(self::$controller, self::$action));
             }else{ // is not callable
-                //echo "No es llamable esa acción";
-                //die;
+                // guardo la acción llamada para mostrar en el mensaje de error
+                $action=self::$action;
+                // lanzar el método error del controlador
                 self::$action='error';
-                // lanzar un método error
-                // $mensaje_error = "No es llamable esa acción";
-                // Ver como enviar también el mensaje de error
-                call_user_func(array(self::$controller, self::$action));
-                
+                $mensaje="No es llamable la acción: ".$action;
+                call_user_func(array(self::$controller, self::$action),$mensaje);
             }
         }else{ // si la clase no existe
-            // error controller
-            echo "La clase: ".$class." no existe";
-            die;
-            //self::$controller=new Error;
-            // generar nueva clase Error en app/controllers con atributo mensaje
-            $mensaje="No existe el controlador";
+            // Instancio la clase Error con el atributo mensaje
+            $mensaje="No existe el controlador: ".self::$controller;
             self::$controller=new Error($mensaje);
+            // Llamo al método para mostrar el error
             self::$action="mostrarError";
             call_user_func(array(self::$controller, self::$action));
         }

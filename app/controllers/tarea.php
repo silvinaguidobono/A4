@@ -170,8 +170,11 @@ class Tarea extends Controller{
         if (isset($this->params['id_tarea'])){
             $id_tarea= $this->params['id_tarea'];
         }else{
-            echo "No recibo identificación de tarea";
-            exit;
+            Session::set('mensaje', "No recibo identificación de tarea");
+            Session::set('tipo_mensaje', "danger");
+            header("Location: ".URL."tarea");
+            //echo "No recibo identificación de tarea";
+            //exit;
         }
         $this->model=new mTarea();
         // Busca la tarea en la base de datos
@@ -405,5 +408,15 @@ class Tarea extends Controller{
             setcookie('clave',"", time()-1800,"/A4");
             //setcookie('clave',"", time()-1800,"/");
         }
+    }
+    
+    /**
+     * Muestra un mensaje de error en el controlador de tareas
+     * 
+     * @param string $mensaje Mensaje de error
+     * @return void
+     */
+    function error($mensaje="Error en controlador de tareas"){
+        echo $mensaje;
     }
 }

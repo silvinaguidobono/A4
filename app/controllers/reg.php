@@ -146,4 +146,14 @@ class Reg extends Controller {
        
    }
    
+   /**
+     * Muestra un mensaje de error en el controlador de Registro de usuarios
+     * 
+     * @param string $mensaje Mensaje de error
+     * @return void
+     */
+    function error($mensaje="Error en controlador de Registro de Usuarios"){
+        echo $mensaje;
+    }
+   
 }

@@ -42,7 +42,13 @@ class Home extends Controller {
         $this->view->show();
     }
     
-    function error(){
-        echo "Hubo un error en el controlador Home";
+    /**
+     * Muestra un mensaje de error en el controlador Home
+     * 
+     * @param string $mensaje Mensaje de error
+     * return void
+     */
+    function error($mensaje="Error en controlador Home"){
+        echo $mensaje;
     }
 }

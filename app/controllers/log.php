@@ -17,12 +17,6 @@ class Log extends Controller{
     function __construct($params) {
         parent::__construct($params);
         
-        // Si hay un usuario logeado voy a mostrar sus tareas
-        if(!is_null(Session::get('id_usuario'))){
-            header("Location: ".URL."tarea");
-            //header("Location: /A4/tarea"); para producción
-            //header("Location: /tarea"); para desarrollo
-        }
         $this->addData([
             "page"=>'Login',
             'titulo'=>'Iniciar sesión'
@@ -32,6 +26,12 @@ class Log extends Controller{
     }
     
     function home(){
+        // Si hay un usuario logeado voy a mostrar sus tareas
+        if(!is_null(Session::get('id_usuario'))){
+            header("Location: ".URL."tarea");
+            //header("Location: /A4/tarea"); para producción
+            //header("Location: /tarea"); para desarrollo
+        }
         $this->view->show();
     }
     
@@ -136,5 +136,15 @@ class Log extends Controller{
         // Cookie desarrollo
         //setcookie('email',$email, time()+1800,"/");
         //setcookie('clave', $clave, time()+1800,"/");
+    }
+    
+    /**
+     * Muestra un mensaje de error en el controlador de loggin 
+     * 
+     * @param string $mensaje Mensaje de error
+     * @return void
+     */
+    function error($mensaje="Error en controlador de loggin de usuarios"){
+        echo $mensaje;
     }
 }

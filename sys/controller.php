@@ -5,9 +5,10 @@ namespace A4\Sys;
 use A4\Sys\Registry;
 
 /**
- * Description of Controller
+ * Clase abstracta de la que heredan los controladores de la aplicación
+ * Se encarga del traspaso de información entre el modelo y vista
  *
- * @author linux
+ * @author Silvina Guidobono <silvinaguidobono@gmail.com>
  */
 abstract class Controller {
     protected $model;
@@ -29,6 +30,13 @@ abstract class Controller {
         
     }
     
+    /**
+     * Incorpora los datos a dataView si el array no es multinivel
+     * Asigna el array a dataTable si el array es multinivel
+     * 
+     * @param array $array datos a agregar
+     * @return void
+     */
     protected function addData($array){
         if(is_array($array)){
             if($this->is_single($array)){
@@ -36,12 +44,16 @@ abstract class Controller {
             }else{
                 $this->dataTable=$array;
             }
-            
+            if(!empty($this->dataTable)){
+                $this->dataView= $this->dataTable;
+            }
         }
     }
-    /*
-     * determines if is multilevel array or not
-     * @return boolean
+    
+    /**
+     * Determina si el array es multinivel o no
+     * 
+     * @return boolean true si no es un array multinivel, falso si lo es
      */
     protected function is_single($data){
         foreach ($data as $value){
