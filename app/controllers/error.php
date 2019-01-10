@@ -15,14 +15,15 @@ class Error extends Controller{
     
     function __construct($params) {
         parent::__construct($params);
-        $this->mensaje=$params;
+        if(isset($params['mensaje'])){
+            $this->mensaje=$params['mensaje'];
+        }else{
+            $this->mensaje="Se ha producido un error";
+        }
+        
     }
-    /*
-    function __construct($textoMensaje) {
-        $this->mensaje=$textoMensaje;
-    }
-    */
-    function mostrarError(){
+    
+    function home(){
         $this->addData([
             'page'=>'Error',
             'titulo'=>'Tareas a hacer',
@@ -36,13 +37,4 @@ class Error extends Controller{
         $this->mensaje=$textoMensaje;
     }
     
-        /**
-     * Muestra un mensaje de error en el controlador Error
-     * 
-     * @param string $mensaje Mensaje de error
-     * return void
-     */
-    function error($mensaje="Error en controlador de errores"){
-        echo $mensaje;
-    }
 }

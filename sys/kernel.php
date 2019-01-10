@@ -82,19 +82,17 @@ class kernel {
                 // si existe ese método dentro de ese controller, llamarlo
                 call_user_func(array(self::$controller, self::$action));
             }else{ // is not callable
-                // guardo la acción llamada para mostrar en el mensaje de error
-                $action=self::$action;
                 // lanzar el método error del controlador
+                // No es llamable la acción
                 self::$action='error';
-                $mensaje="No es llamable la acción: ".$action;
-                call_user_func(array(self::$controller, self::$action),$mensaje);
+                call_user_func(array(self::$controller, self::$action));
             }
         }else{ // si la clase no existe
             // Instancio la clase Error con el atributo mensaje
             $mensaje="No existe el controlador: ".self::$controller;
-            self::$controller=new Error($mensaje);
-            // Llamo al método para mostrar el error
-            self::$action="mostrarError";
+            self::$params['mensaje']=$mensaje;
+            self::$controller=new Error(self::$params);
+            self::$action="home";
             call_user_func(array(self::$controller, self::$action));
         }
     }

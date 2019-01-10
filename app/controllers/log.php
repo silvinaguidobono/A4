@@ -138,13 +138,4 @@ class Log extends Controller{
         //setcookie('clave', $clave, time()+1800,"/");
     }
     
-    /**
-     * Muestra un mensaje de error en el controlador de loggin 
-     * 
-     * @param string $mensaje Mensaje de error
-     * @return void
-     */
-    function error($mensaje="Error en controlador de loggin de usuarios"){
-        echo $mensaje;
-    }
 }

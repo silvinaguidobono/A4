@@ -410,13 +410,4 @@ class Tarea extends Controller{
         }
     }
     
-    /**
-     * Muestra un mensaje de error en el controlador de tareas
-     * 
-     * @param string $mensaje Mensaje de error
-     * @return void
-     */
-    function error($mensaje="Error en controlador de tareas"){
-        echo $mensaje;
-    }
 }

@@ -70,4 +70,14 @@ abstract class Controller {
             echo json_encode($output);
         }
     }
+    
+    /**
+     * Muestra un mensaje de error en el controlador
+     * 
+     * return void
+     */
+    function error(){
+        echo "Error. No es llamable la acción";
+    }
+    
 }

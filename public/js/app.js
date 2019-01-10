@@ -4,6 +4,9 @@ var show_msg=function(str){
     setTimeout(function(){$('#msg').hide();}, 4000);
 };
 
+//var urlPropia = 'http://localhost:8030/';
+var urlPropia = 'http://sguidobono.cesnuria.com/A4/';
+
 $(document).ready(function(){
     // initialize elements
     $('#msg').hide();
@@ -44,7 +47,7 @@ $(document).ready(function(){
         }else{
             // valido el email no exista
             $.ajax({
-                url:'reg/valemail',
+                url:urlPropia+'reg/valemail',
                 type:'post',
                 data: {email: email},
                 dataType:'json',
@@ -54,7 +57,7 @@ $(document).ready(function(){
                 success:function(out){
                     console.log(out);
                     show_msg(out.msg);
-                    if(out.msg=='Email en uso'){
+                    if(out.msg=="Email en uso"){
                         $('#email-reg').focus();
                     }
                     /*if (out.redir == 'home') {
@@ -62,6 +65,7 @@ $(document).ready(function(){
                     }*/
                 }
             });
+            //return false;
         }
     });
     // validación de la contraseña

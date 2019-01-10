@@ -74,6 +74,6 @@ include 'head_common.php';
         <script src="//code.jquery.com/jquery-3.3.1.min.js"></script>
         <!--<script src="public/js/jquery.min.js"></script>
         <script src="public/js/bootstrap.min.js"></script>-->
-        <script src="public/js/app.js"></script>
+        <script src="<?=URL.'public/js/app.js'; ?>"></script>
     </body>
 </html>
