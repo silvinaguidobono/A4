@@ -24,7 +24,7 @@ class Request {
         // para quitar el blanco del comienzo
         array_shift($array_query);
         
-        array_shift($array_query); // elimina A4 solo para producción
+        //array_shift($array_query); // elimina A4 solo para producción
         
         // para quitar barra del final 
         if (end($array_query)==""){

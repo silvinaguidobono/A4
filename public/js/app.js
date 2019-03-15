@@ -4,8 +4,8 @@ var show_msg=function(str){
     setTimeout(function(){$('#msg').hide();}, 4000);
 };
 
-//var urlPropia = 'http://localhost:8030/';
-var urlPropia = 'http://sguidobono.cesnuria.com/A4/';
+var urlPropia = 'http://localhost:8030/';
+//var urlPropia = 'http://sguidobono.cesnuria.com/A4/';
 
 $(document).ready(function(){
     // initialize elements

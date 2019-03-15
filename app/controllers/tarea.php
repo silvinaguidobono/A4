@@ -401,12 +401,12 @@ class Tarea extends Controller{
     private function eliminarCookies(){
         // Cookie producción con ruta
         if (isset($_COOKIE['email'])){
-            setcookie('email',"", time()-1800,"/A4");
-            //setcookie('email',"", time()-1800,"/");
+            //setcookie('email',"", time()-1800,"/A4");
+            setcookie('email',"", time()-1800,"/");
         }
         if (isset($_COOKIE['clave'])){
-            setcookie('clave',"", time()-1800,"/A4");
-            //setcookie('clave',"", time()-1800,"/");
+            //setcookie('clave',"", time()-1800,"/A4");
+            setcookie('clave',"", time()-1800,"/");
         }
     }
     

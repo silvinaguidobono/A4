@@ -10,8 +10,8 @@
     define('DS', DIRECTORY_SEPARATOR);
     define('ROOT', realpath(__DIR__).DS);
     define('APP', ROOT.'app'.DS);
-    define('URL', '/A4/'); // para producción
-    //define('URL', '/'); // para desarrollo
+    //define('URL', '/A4/'); // para producción
+    define('URL', '/'); // para desarrollo
     
     // config file
     require_once __DIR__.'/sys/autoload.php';

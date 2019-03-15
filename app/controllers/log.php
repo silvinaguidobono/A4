@@ -130,12 +130,12 @@ class Log extends Controller{
      */
     private function guardarCookies($email,$clave){
         // Cookie Producción con ruta
-        setcookie('email',$email, time()+1800,"/A4");
-        setcookie('clave', $clave, time()+1800,"/A4");
+        //setcookie('email',$email, time()+1800,"/A4");
+        //setcookie('clave', $clave, time()+1800,"/A4");
 
         // Cookie desarrollo
-        //setcookie('email',$email, time()+1800,"/");
-        //setcookie('clave', $clave, time()+1800,"/");
+        setcookie('email',$email, time()+1800,"/");
+        setcookie('clave', $clave, time()+1800,"/");
     }
     
 }
