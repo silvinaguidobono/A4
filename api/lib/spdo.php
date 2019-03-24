@@ -35,8 +35,7 @@ class SPDO extends \PDO
 
     function getConfig(){
         // extract config DB array
-        //$fileConf=APP.'config.json';
-        $fileConf='/home/linux/www/A4/app/config.json';
+        $fileConf=ROOT.'config.json';
         $jsonstr= file_get_contents($fileConf);
         $arrayJson= json_decode($jsonstr);
         $arrayConfig=array();

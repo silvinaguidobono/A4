@@ -113,7 +113,11 @@ class User
             $stmt=$this->gbd->prepare($sql);
             $stmt->bindValue(':id',$id,\PDO::PARAM_INT);
             if($stmt->execute()){
-                return ['msg'=>'User deleted'];
+                if($stmt->rowCount()!=0){
+                    return ['msg'=>'User deleted'];
+                }else{
+                    return ['msg'=>'Cant delete user'];
+                }
             }else{
                 return ['msg'=>'Cant delete user'];
             }
@@ -149,7 +153,7 @@ class User
                         $camposUpdate=true;
                         //$sql="UPDATE usuarios SET ".$field."=:".$field." WHERE id=:id";
                         $sql="UPDATE usuarios SET $field=:$field,fecha_act=:fecha_act WHERE id=:id";
-                        echo "La sql es: ".$sql;
+                        //echo "La sql es: ".$sql;
 
                         //$params=array_keys($request->parameters);
                         //$output=$this->gbd->oper($sql,$request,$field,"User updated");
@@ -163,14 +167,18 @@ class User
 
                         $result=$stmt->execute();
                         if(!$result) {
-                            return ['msg'=>'Error updating'];
+                            return ['msg'=>'Error updating user'];
+                        }else{
+                            if($stmt->rowCount()==0){
+                                return ['msg'=>'Error updating user'];
+                            }
                         }
                     }
                 }
                 if($camposUpdate){
                     return ['msg'=>'User updated'];
                 }else{
-                    return ['msg'=>'No hay campos para actualizar'];
+                    return ['msg'=>'No fields to update'];
                 }
             }
         }
