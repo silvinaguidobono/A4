@@ -26,17 +26,27 @@ class Rest
         // obtener array parametros
         switch ($request->method){
             case 'GET':
-                $request->parameters=count($request->url_elements)>1?$request->url_elements[1]:$_GET;
+                if(count($request->url_elements)>1){
+                    $request->parameters=$request->url_elements[1];
+                }else{
+                    if(isset($_GET['id']) && !empty($_GET['id'])){
+                        $request->parameters=$_GET['id'];
+                    }
+                }
                 break;
             case 'POST':
                 $request->parameters=json_decode(file_get_contents('php://input'),true);
                 break;
             case 'PUT':
                 $request->parameters=json_decode(file_get_contents('php://input'),true);
-                $request->parameters['id']=count($request->url_elements)>1?$request->url_elements[1]:$_GET;
+                if(count($request->url_elements)>1){
+                    $request->parameters['id']=$request->url_elements[1];
+                }
                 break;
             CASE 'DELETE':
-                $request->parameters=count($request->url_elements)>1?$request->url_elements[1]:$_GET;
+                if(count($request->url_elements)>1){
+                    $request->parameters=$request->url_elements[1];
+                }
                 break;
             default:
                 header('HTTP/1.1 405 Method not allowed');
